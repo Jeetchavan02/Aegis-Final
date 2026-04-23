@@ -1,0 +1,41 @@
+# Node modules
+**/node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python Environments
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Environment Variables
+**/.env
+**/.env.local
+
+# Production Build
+**/dist/
+**/build/
+
+# Mac OS Specific
+.DS_Store
+
+# IDE and Editor
+.vscode/
+.idea/
+
+# File Uploads
+backend/uploads/*
+!backend/uploads/.gitkeep
