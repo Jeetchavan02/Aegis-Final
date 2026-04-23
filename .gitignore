@@ -22,6 +22,8 @@ coverage.xml
 .hypothesis/
 
 # Environment Variables
+.env
+backend/.env
 **/.env
 **/.env.local
 
