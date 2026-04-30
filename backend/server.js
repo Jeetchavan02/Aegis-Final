@@ -30,6 +30,7 @@ app.use('/uploads', express.static(uploadsDir));
 // Routes
 app.use('/api/analyze', analyzeRoute);
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/verify', require('./routes/verify'));
 
 // Basic health check route
 app.get('/api/health', (req, res) => {

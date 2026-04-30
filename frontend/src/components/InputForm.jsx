@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { UploadCloud, Activity, Scan, FileText, CheckCircle, AlertOctagon } from 'lucide-react';
 import { analyzeData } from '../services/api';
 import ResultDisplay from './ResultDisplay';
+import VerificationFeed from './VerificationFeed';
 
 const InputForm = () => {
     const [text, setText] = useState('');
@@ -9,6 +10,7 @@ const InputForm = () => {
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null);
     const [error, setError] = useState('');
+    const [activeTab, setActiveTab] = useState('analysis');
 
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -26,6 +28,7 @@ const InputForm = () => {
         setError('');
         setLoading(true);
         setResult(null);
+        setActiveTab('analysis');
 
         const formData = new FormData();
         formData.append('text', text);
@@ -168,8 +171,29 @@ const InputForm = () => {
                     )}
 
                     {result && !loading && (
-                        <div style={{ flex: 1 }}>
-                            <ResultDisplay result={result} />
+                        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                            <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.5rem', borderBottom: '1px solid var(--glass-border)' }}>
+                                <button 
+                                    className="tech-font"
+                                    onClick={() => setActiveTab('analysis')}
+                                    style={{ padding: '0.5rem 1rem', background: 'none', border: 'none', borderBottom: activeTab === 'analysis' ? '2px solid var(--accent-primary)' : '2px solid transparent', color: activeTab === 'analysis' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', fontWeight: 'bold' }}
+                                >
+                                    ANALYSIS RESULTS
+                                </button>
+                                <button 
+                                    className="tech-font"
+                                    onClick={() => setActiveTab('reviews')}
+                                    style={{ padding: '0.5rem 1rem', background: 'none', border: 'none', borderBottom: activeTab === 'reviews' ? '2px solid var(--accent-primary)' : '2px solid transparent', color: activeTab === 'reviews' ? 'var(--text-primary)' : 'var(--text-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: 'bold' }}
+                                >
+                                    CITIZEN REVIEWS
+                                    {result.requiresCitizenReview && (
+                                        <span style={{ background: 'var(--danger)', width: '8px', height: '8px', borderRadius: '50%', display: 'inline-block' }} title="Review Required"></span>
+                                    )}
+                                </button>
+                            </div>
+                            
+                            {activeTab === 'analysis' && <ResultDisplay result={result} />}
+                            {activeTab === 'reviews' && <VerificationFeed analysisId={result.id} requiresReview={result.requiresCitizenReview} />}
                         </div>
                     )}
                 </div>
